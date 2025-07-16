@@ -130,7 +130,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 2rem;
+    gap: 13rem;
     margin-bottom: 3rem;
     flex-wrap: wrap;
 }
@@ -146,6 +146,7 @@ body {
         line-height: normal;
         letter-spacing: -3.2px;
         color: transparent;
+        margin-left: 3rem;
     } 
     .flutter {
         text-align: right;
@@ -158,21 +159,27 @@ body {
         line-height: normal;
         letter-spacing: -6.4px;
         color: transparent;
+        margin-left: 1rem; /* Added 1rem leftward offset */
     }
 
 .profile-image {
-    width: 459.261px;
-    height: 575.741px;
+    margin-top: -20px;
+    width: 359.261px;
+    height: 475.741px;
     flex-shrink: 0;
-    aspect-ratio: 459.26/575.74;
+    aspect-ratio: 359.26/475.74;
     overflow: hidden;
     transition: transform 0.3s ease;
     opacity: 1;
     animation: fadeIn 1s ease-in;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
 }
 
 .profile-image:hover {
-    transform: scale(1.05);
+    transform: translateX(-50%) scale(1.05);
 }
 
 .profile-image img {
@@ -203,8 +210,12 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 600px;
+    width: 100%;
+    max-width: 1200px;
     margin: 0 auto;
+    position: relative;
+    z-index: 10;
+    padding: 0 20px;
 }
 
 .location, .contact-text {
@@ -217,6 +228,19 @@ body {
     font-weight: 400;
     line-height: normal;
     letter-spacing: -0.2px;
+    width: 50%;
+}
+
+.location {
+    display: flex;
+    justify-content: center;
+    padding-right: 25%;
+}
+
+.contact-text {
+    display: flex;
+    justify-content: center;
+    padding-left: 14%;
 }
 
 /* Sections */
@@ -302,9 +326,10 @@ body {
 #about p {
     text-align: center;
     font-size: 1.2rem;
-    max-width: 800px;
+    max-width: 1200px;
     margin: 0 auto;
     color: #666;
+    line-height: 1.6;
 }
 
 
@@ -622,3 +647,45 @@ html {
         transition: all 0.3s ease;
         transform-style: preserve-3d;
     }
+
+    /* Cursor particle effects */
+.cursor-particle {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    will-change: transform, opacity;
+    transition: opacity 0.3s ease;
+    mix-blend-mode: screen;
+}
+
+.cursor-particle::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: pulse-particle 2s infinite ease-in-out;
+}
+
+@keyframes pulse-particle {
+    0%, 100% { 
+        transform: translate(-50%, -50%) scale(0.5);
+        opacity: 0.3;
+    }
+    50% { 
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0.8;
+    }
+}
+
+/* Hide cursor particles on mobile */
+@media (max-width: 768px) {
+    .cursor-particle {
+        display: none;
+    }
+}
