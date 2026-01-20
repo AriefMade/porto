@@ -58,7 +58,6 @@ function initHeroAnimations() {
     });
 }
 
-// Floating particles animation
 function createFloatingParticles() {
     const particleCount = 20;
     const container = document.querySelector('.hero-section');
@@ -93,7 +92,6 @@ function createFloatingParticles() {
     }
 }
 
-// Cursor trail effect with particle following
 function initCursorTrail() {
     const coords = { x: 0, y: 0 };
     const particles = [];
@@ -101,7 +99,6 @@ function initCursorTrail() {
     let isMouseMoving = false;
     let mouseTimeout;
 
-    // Create particles
     for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div');
         particle.className = 'cursor-particle';
@@ -136,21 +133,18 @@ function initCursorTrail() {
         });
     }
 
-    // Mouse move handler
+
     document.addEventListener('mousemove', (e) => {
         coords.x = e.clientX;
         coords.y = e.clientY;
         isMouseMoving = true;
         
-        // Clear existing timeout
         clearTimeout(mouseTimeout);
         
-        // Set particles visible
         particles.forEach(particle => {
             particle.element.style.opacity = '0.8';
         });
         
-        // Reduce particles after mouse stops moving but keep them visible
         mouseTimeout = setTimeout(() => {
             isMouseMoving = false;
             particles.forEach(particle => {
@@ -159,36 +153,28 @@ function initCursorTrail() {
         }, 500);
     });
 
-    // Initialize particles at center of screen
     coords.x = window.innerWidth / 2;
     coords.y = window.innerHeight / 2;
 
-    // Animation loop
     function animate() {
         let targetX = coords.x;
         let targetY = coords.y;
 
         particles.forEach((particle, index) => {
-            // Add some randomness to particle movement only when mouse is moving
             const randomOffsetX = isMouseMoving ? (Math.random() - 0.5) * 10 : 0;
             const randomOffsetY = isMouseMoving ? (Math.random() - 0.5) * 10 : 0;
             
-            // Calculate target position with delay effect
             particle.targetX = targetX + randomOffsetX;
             particle.targetY = targetY + randomOffsetY;
             
-            // Smooth following animation - always animate
             particle.x += (particle.targetX - particle.x) * particle.speed;
             particle.y += (particle.targetY - particle.y) * particle.speed;
             
-            // Apply transform
             particle.element.style.transform = `translate(${particle.x - particle.size/2}px, ${particle.y - particle.size/2}px) scale(${1 - index * 0.05})`;
             
-            // Update target for next particle (chain effect)
             targetX = particle.x;
             targetY = particle.y;
             
-            // Add slight rotation based on movement
             const angle = Math.atan2(particle.targetY - particle.y, particle.targetX - particle.x) * 180 / Math.PI;
             particle.element.style.transform += ` rotate(${angle}deg)`;
         });
@@ -198,14 +184,13 @@ function initCursorTrail() {
 
     animate();
     
-    // Cleanup function
     return () => {
         particles.forEach(particle => {
             particle.element.remove();
         });
     };
 }
-// Loading screen animation
+
 function initLoadingAnimation() {
     const loadingScreen = document.createElement('div');
     loadingScreen.className = 'loading-screen';
@@ -219,7 +204,6 @@ function initLoadingAnimation() {
     `;
     document.body.appendChild(loadingScreen);
     
-    // Hide loading screen after 2 seconds
     setTimeout(() => {
         loadingScreen.style.opacity = '0';
         setTimeout(() => {
@@ -228,7 +212,6 @@ function initLoadingAnimation() {
     }, 1500);
 }
 
-// Intersection Observer for animations
 const observerOptions = {
     threshold: 0.1,
     rootMargin: '0px 0px -50px 0px'
@@ -242,14 +225,12 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, observerOptions);
 
-// Observe all sections for scroll animations
 document.addEventListener('DOMContentLoaded', () => {
     const sections = document.querySelectorAll('.section');
     sections.forEach(section => {
         observer.observe(section);
     });
 
-    // Project cards hover effect - moved inside DOMContentLoaded
     document.querySelectorAll('.project-card').forEach(card => {
         card.addEventListener('mouseenter', () => {
             card.style.transform = 'translateY(-15px) scale(1.03) rotateX(5deg)';
@@ -263,36 +244,30 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Contact form handling (if you add a form later)
 function handleContactForm() {
     const form = document.querySelector('#contact-form');
     if (form) {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
-            // Add your form submission logic here
             alert('Thank you for your message! I will get back to you soon.');
             form.reset();
         });
     }
 }
 
-// Profile image error handling
 document.addEventListener('DOMContentLoaded', () => {
     const profileImg = document.querySelector('#profileImg');
     if (profileImg) {
         profileImg.addEventListener('error', () => {
-            // Create a placeholder if image fails to load
             profileImg.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxNTAiIGhlaWdodD0iMTUwIiBmaWxsPSIjRjVGNUY1Ii8+CjxjaXJjbGUgY3g9Ijc1IiBjeT0iNjAiIHI9IjIwIiBmaWxsPSIjQ0NDIi8+CjxwYXRoIGQ9Ik0zMCAxMjBDMzAgMTA1IDUwIDk1IDc1IDk1Uzk1IDEwNSAxMjAgMTIwVjE1MEgzMFYxMjBaIiBmaWxsPSIjQ0NDIi8+Cjwvc3ZnPg==';
         });
     }
 });
 
-// Add loading animation
 window.addEventListener('load', () => {
     document.body.classList.add('loaded');
 });
 
-// Parallax effect for hero section
 function initHeroParallax() {
     const heroSection = document.querySelector('.hero-section');
     let ticking = false;
@@ -313,14 +288,12 @@ function initHeroParallax() {
     });
 }
 
-// New simplified cursor following particles
 function initSimpleCursorTrail() {
     const particles = [];
     const particleCount = 12;
     let mouseX = 0;
     let mouseY = 0;
     
-    // Create particles
     for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div');
         particle.style.cssText = `
@@ -346,31 +319,25 @@ function initSimpleCursorTrail() {
         });
     }
     
-    // Track mouse position
     document.addEventListener('mousemove', (e) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
     });
     
-    // Animation loop
     function animate() {
         let currentX = mouseX;
         let currentY = mouseY;
         
         particles.forEach((particle, index) => {
-            // Each particle follows the previous one
             particle.targetX = currentX;
             particle.targetY = currentY;
             
-            // Smooth interpolation
             particle.x += (particle.targetX - particle.x) * particle.speed;
             particle.y += (particle.targetY - particle.y) * particle.speed;
             
-            // Apply position
             particle.element.style.left = particle.x - particle.element.offsetWidth / 2 + 'px';
             particle.element.style.top = particle.y - particle.element.offsetHeight / 2 + 'px';
             
-            // Update for next particle
             currentX = particle.x;
             currentY = particle.y;
         });
@@ -380,8 +347,105 @@ function initSimpleCursorTrail() {
     
     animate();
 }
+document.addEventListener('DOMContentLoaded', () => {
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('.project-card');
 
-// Initialize all functions
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const filter = btn.getAttribute('data-filter');
+            
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            projectCards.forEach(card => {
+                const category = card.getAttribute('data-category');
+                
+                if (filter === 'all' || category === filter) {
+                    card.style.display = 'block';
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 100);
+                } else {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        card.style.display = 'none';
+                    }, 300);
+                }
+            });
+        });
+    });
+});
+
+const backToTopBtn = document.getElementById('backToTop');
+
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+        backToTopBtn.classList.add('visible');
+    } else {
+        backToTopBtn.classList.remove('visible');
+    }
+});
+
+backToTopBtn.addEventListener('click', () => {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.querySelector('#contact-form');
+    if (form) {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(form);
+            const name = formData.get('name');
+            const email = formData.get('email');
+            const subject = formData.get('subject');
+            const message = formData.get('message');
+            
+            alert(`Thank you ${name}! Your message has been received. I'll get back to you soon.`);
+            
+            form.reset();
+        });
+    }
+});
+
+const skillObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.querySelectorAll('.skill-progress').forEach(progress => {
+                progress.style.width = progress.parentElement.dataset.width || progress.style.width;
+            });
+        }
+    });
+}, { threshold: 0.5 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const skillsSection = document.querySelector('#skills');
+    if (skillsSection) {
+        skillObserver.observe(skillsSection);
+    }
+});
+
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            const offsetTop = target.offsetTop - 80;
+            window.scrollTo({
+                top: offsetTop,
+                behavior: 'smooth'
+            });
+        }
+    });
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     initLoadingAnimation();
     initHeroAnimations();
